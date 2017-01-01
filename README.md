@@ -1,5 +1,4 @@
 # DeskNote
-<br>
 A basic Desktop Notes App.<br>
 UI designed on Java Swing.<br>
 Back End using MySQL <br>
