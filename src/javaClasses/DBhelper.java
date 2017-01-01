@@ -1,6 +1,4 @@
 package javaClasses;
-/*CopyRights shared for project purpose*/
-/*No need to make any changes.Has been tested*/
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
