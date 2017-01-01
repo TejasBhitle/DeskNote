@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import javaClasses.NoteData;
@@ -16,14 +17,17 @@ import myInterfaces.NoteClickListener;
 
 public class Custom_Note_Panel extends JPanel{
 	
-	private JLabel titleLabel,contentLabel,dateLabel;
+	private JLabel titleLabel,dateLabel;
+	private JTextArea contentTextArea;
 	private NoteClickListener listener;
 	
-	public Custom_Note_Panel(NoteData noteData){
+	public Custom_Note_Panel(NoteData noteData,String colour){
 		titleLabel = new JLabel(noteData.getTitle());
-		contentLabel = new JLabel(noteData.getContent());
+		contentTextArea= new JTextArea(noteData.getContent(),5,5);
+		contentTextArea.setEditable(false);
 		dateLabel = new JLabel(noteData.getDate());
-		setBackground(Color.WHITE);
+		contentTextArea.setBackground(Color.decode(colour));
+		setBackground(Color.decode(colour));
 		
 		Dimension dim = new Dimension();
 		dim.width=300;
@@ -37,21 +41,36 @@ public class Custom_Note_Panel extends JPanel{
 		setBorder(BorderFactory.createCompoundBorder(outerborder,innerborder));
 		
 		/*Set Panel Content*/
-		add(contentLabel,BorderLayout.NORTH);
+		add(contentTextArea,BorderLayout.NORTH);
 		add(dateLabel,BorderLayout.SOUTH);
 		
 		/*Mouse Listeners*/
 		addMouseListener(new MouseAdapter(){
 			@Override
 			public void mousePressed(MouseEvent e){
-				setBackground(Color.GRAY);
-				System.out.println("Mouse Pressed");
+				setBackground(Color.red);
+				//System.out.println("Mouse Pressed");
 				
 			}
 			@Override
             public void mouseReleased(MouseEvent e) {
-				setBackground(Color.WHITE);
-				System.out.println("Mouse Releaesd");
+				setBackground(Color.decode(colour));
+				//System.out.println("Mouse Releaesd");
+				listener.onNoteClicked(noteData);
+            }
+		});
+		
+		contentTextArea.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mousePressed(MouseEvent e){
+				setBackground(Color.red);
+				//System.out.println("Mouse Pressed");
+				
+			}
+			@Override
+            public void mouseReleased(MouseEvent e) {
+				setBackground(Color.decode(colour));
+				//System.out.println("Mouse Releaesd");
 				listener.onNoteClicked(noteData);
             }
 		});

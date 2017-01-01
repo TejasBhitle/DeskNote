@@ -1,5 +1,6 @@
 package myDialogs;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,23 +18,23 @@ public class ConfirmDeleteDialog extends JDialog{
 	private JLabel Msg;
 	private JButton yes;
 	private DeleteDialogListener listener;
-	
-	private final String MSG = "Are You Sure You Want to delete ?"
-			+ "\nPress Exit to Abort Deletion.";
+
+	private final String MSG = "Are you sure you want to Delete ?";
+			
 	
 	public ConfirmDeleteDialog(JFrame parent ){
-		super(parent ,"Confirm ",false);
+		super(parent ,"Confirmation ",false);
 		
 		setSize(400,200);
 		setLocationRelativeTo(parent);
-		
+		getContentPane().setBackground(Color.decode("#bbdefb"));
 		Msg = new JLabel(MSG);
-		yes = new JButton("Yes, Delete it");
+		yes = new JButton("Yes");
 		yes.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// delete it
-				showDialog(false);
+				listener.onYesPressed();
 			}
 		});
 		

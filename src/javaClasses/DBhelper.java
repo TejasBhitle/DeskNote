@@ -1,28 +1,26 @@
 package javaClasses;
-
+/*CopyRights shared for project purpose*/
+/*No need to make any changes.Has been tested*/
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-
-
+import java.sql.PreparedStatement;
 public class DBhelper {
-	public static int srno=1;
 	
-	public void addNote(NoteData noteData){
+	static int i,j; 
+	static public void addNote(NoteData noteData){
 	
-		String SrNo=Integer.toString(srno);
 		String title = noteData.getTitle();
 		String content = noteData.getContent();
 		String date = noteData.getDate();
 		try{
-			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes","root","root");
+			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes1","root","root");
 			//System.out.println("Connection Success");
-			String query="insert into notesinfovalues('"+SrNo+"','"+title+"','"+content+"','"+date+"')";
+			String query="insert into notesinfo values('"+title+"','"+content+"','"+date+"')";
 			Statement stmt=conn.createStatement();
 			stmt.execute(query);
-			srno++;
 		}
 		catch(Exception e)
 		{	
@@ -30,10 +28,10 @@ public class DBhelper {
 		}
 	} 
 
-	public ArrayList<NoteData>getNoteData(){
+	static public ArrayList<NoteData> getNoteData(){
 		ArrayList<NoteData> arraylist=new ArrayList<NoteData>();
 		try{
-			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes","root","root");
+			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes1","root","root");
 			//System.out.println("Connection Success");
 			String query="SELECT * FROM notesinfo";
 			Statement stmt=conn.createStatement();
@@ -52,6 +50,32 @@ public class DBhelper {
 		}
 		return arraylist;
 	}
-
+	static public void deleteNote(NoteData notedata)
+	{	
+		try{
+			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes1","root","root");
+			String queryDelete="DELETE FROM notesinfo WHERE Date =?";
+			PreparedStatement pstmt=conn.prepareStatement(queryDelete);
+			pstmt.setString(1,notedata.getDate());
+			pstmt.execute();
+		}
+		catch(Exception e)
+		{	
+			System.err.println(e);
+		}
+	}
+	static public void editNote(NoteData notedata)
+	{
+		try{
+			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/notes1","root","root");
+			String date=notedata.getDate();
+			String queryEdit="UPDATE notesinfo SET Title='"+notedata.getTitle()+"',Content='"+notedata.getContent()+"' WHERE Date='"+date+"'";
+			Statement stmt=conn.createStatement();
+			stmt.executeUpdate(queryEdit);
+		}
+		catch(Exception e)
+		{
+			System.err.println(e);
+		}
+	}
 }
-
